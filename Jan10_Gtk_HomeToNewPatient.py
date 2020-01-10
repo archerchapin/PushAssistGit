@@ -3,6 +3,7 @@
 import pgi
 pgi.require_version("Gtk", "3.0")
 from pgi.repository import Gtk
+import csv
 
 window_w = 700 # Window Width
 window_h = 500 # Window Height
@@ -70,6 +71,16 @@ class NewPatientWindow(Gtk.Window):
         lastNameVar = self.lastNameEntry.get_text()
 
         print(firstNameVar + ' ' + lastNameVar)
+        currentPatientFileName = lastNameVar + "_" + firstNameVar + "_DateTime.csv"
+        fullPatientFilePath = "PatientFiles/" + currentPatientFileName
+
+        with open(fullPatientFilePath, mode="w") as curFile:
+            # Names: time, left ischial spine, right ischial spine, pubic bone, sacral promontory, sacrum, fetal head
+            headerNames = ['time', 'lIS', 'rIS', 'pb', 'sp', 's', 'fh']
+            writer = csv.DictWriter(curFile, fieldnames=headerNames)
+
+            writer.writeheader()
+
 
         subWin = InitialWindow()
         subWin.show_all()
